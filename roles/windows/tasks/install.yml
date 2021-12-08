@@ -1,0 +1,22 @@
+- name: Checking if cloudendure is installed 
+  win_stat:
+          path: '{{window_cloudendure_agent_path}}'
+  register: windows_agent_file_stat_result
+  when:
+          - ansible_os_family == "Windows"
+
+- name: Downloading cloudendure
+  win_get_url:
+          url: '{{windows_cloudendure_download_url}}'
+          dest: '{{windows_cloudendure_download_destination}}'
+  when:
+          - ansible_os_family == "Windows"
+          - windows_agent_file_stat_result.stat.exists == False
+
+- name: Running cloudendure installation
+  win_command: '{{install_cloudendure_in_windows}}'
+  args:
+          chdir: '{{windows_cloudendure_download_destination}}'
+  when:
+          - ansible_os_family == "Windows"
+          - windows_agent_file_stat_result.stat.exists == False

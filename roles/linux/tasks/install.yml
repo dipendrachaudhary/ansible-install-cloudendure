@@ -1,0 +1,85 @@
+####### Debian #######
+
+- name: Debian - Checking if Cloudendure is installed
+  become: true
+  become_user: '{{become_user_linux}}'
+  stat:
+          path: '{{cloudendure_agent_path}}'
+  register: debian_cloudendure_agent_state_result
+  when:
+          - ansible_os_family == "Debian"
+
+- name: Debian - Downloading couldendure for Linux
+  become: true
+  become_user: '{{become_user_linux}}'
+  get_url:
+          url: '{{linux_cloudendure_download_url}}'
+          dest: '{{linux_cloudendure_download_destination}}'
+  when:
+          - ansible_os_family == "Debian"
+          - debian_cloudendure_agent_state_result.stat.exists == False
+
+- name: Debian - Running cloudendure installation
+  become: true
+  become_user: '{{become_user_linux}}'
+  shell:
+          cmd: '{{linux_cloudendure_install_file}}'
+          chdir: '{{linux_cloudendure_directory}}'
+  register: debian_result
+  ignore_errors: True
+  when:
+          - ansible_os_family == "Debian"
+          - debian_cloudendure_agent_state_result.stat.exists == False
+
+- name: Debian - Deleting installation file after installation
+  become: true
+  become_user: '{{become_user_linux}}'
+  file:
+          path: '{[linux_installation_file_path}}'
+          state: absent
+  when:
+          - ansible_os_family == "Debian"
+
+
+
+####### RedHat #######
+
+- name: RedHat - Checking if Cloudendure is installed
+  become: true
+  become_user: '{{become_user_linux}}'
+  stat:
+          path: '{{cloudendure_agent_path}}'
+  register: redhat_cloudendure_agent_state_result
+  when:
+          - ansible_os_family == "RedHat"
+
+- name: RedHat - Downloading Couldendure for Linux
+  become: true
+  become_user: '{{become_user_linux}}'
+  get_url:
+          url: '{{linux_cloudendure_download_url}}'
+          dest: '{{linux_cloudendure_download_destination}}'
+  when:
+          - ansible_os_family == "RedHat"
+          - redhat_cloudendure_agent_state_result.stat.exists == False
+
+- name: RedHat - Running cloudendure installation
+  become: true
+  become_user: '{{become_user_linux}}'
+  shell:
+          cmd: '{{linux_cloudendure_install_file}}'
+          chdir: '{{linux_cloudendure_directory}}'
+  register: redhat_result
+  ignore_errors: True
+  when:
+          - ansible_os_family == "RedHat"
+          - redhat_cloudendure_agent_state_result.stat.exists == False
+
+- name: Debian - Deleting installation file after installation
+  become: true
+  become_user: '{{become_user_linux}}'
+  file:
+          path: '{{linux_installation_file_path}}'
+          state: absent
+  when:
+           - ansible_os_family == "RedHat"

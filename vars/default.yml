@@ -1,0 +1,54 @@
+#######Variables for linux#######
+##Install for Linux##
+
+become_user_linux: "root"
+
+cloudendure_agent_path: "/var/lib/cloudendure/install_agent"
+
+linux_cloudendure_download_url: "https://console.cloudendure.com/installer_linux.py"
+
+linux_cloudendure_download_destination: "/root/installer_linux.py"
+
+linux_cloudendure_install_file: python ./installer_linux.py -t 540A-B7C3-91CF-BBC6-33BF-D635-1C35-B30F-3CFC-E8C0-C0DB-8326-5679-262C-656B-E1C3 --no-prompt 
+
+linux_cloudendure_directory: "/root/"
+
+linux_installation_file_path: "/root/installer_linux.py"
+
+
+
+
+##Uninstall for Linux##
+
+linux_cloudendure_run_uninstall_1: "/var/lib/cloudendure/stopAgent.sh"
+
+linux_cloudendure_run_uninstall_2: "/var/lib/cloudendure/install_agent --remove"
+
+cloudamize_directory_path: "/usr/local/cloudamize"
+
+
+
+
+
+######## Variables for windows########
+
+window_cloudendure_agent_path: 'C:\Program Files (x86)\CloudEndure\dist\install_agent_windows.exe'
+
+windows_cloudendure_download_url: "https://console.cloudendure.com/installer_win.exe"
+
+windows_cloudendure_download_destination: 'C:\Users\Administrator\Downloads\'
+
+install_cloudendure_in_windows: installer_win.exe -t 540A-B7C3-91CF-BBC6-33BF-D635-1C35-B30F-3CFC-E8C0-C0DB-8326-5679-262C-656B-E1C3 --no-prompt
+
+
+
+
+##Uninstall Cloudamize in Windows##
+
+windows_cloudendure_uninstallation_directory_source: 'C:\Program Files (x86)\CloudEndure\dist'
+
+windows_cloudendure_uninstallation_directory_destination: 'C:\Users\Administrator\Downloads'
+
+uninstall_cloudendure_in_windows: install_agent_windows.exe --remove
+
+windows_cloudendure_uninstallation_file_destination: 'C:\Users\Administrator\Downloads\dist'

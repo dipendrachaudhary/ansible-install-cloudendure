@@ -1,0 +1,11 @@
+- hosts: all
+  vars_files:
+          - vars/default.yml
+   
+  tasks:
+          - include: "roles/{{ role_name }}/tasks/install.yml"
+            when: run_option == "install"
+            
+          - include: "roles/{{ role_name }}/tasks/uninstall.yml"
+            when: run_option == "uninstall"
+

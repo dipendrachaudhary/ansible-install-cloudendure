@@ -1,0 +1,44 @@
+####### Debian #######
+
+- name: Debian - Checking if Cloudendure is installed
+  become: true
+  become_user: '{{become_user_linux}}'
+  stat:
+          path: '{{cloudendure_agent_path}}'
+  register: debian_cloudendure_agent_state_result
+  when:
+          - ansible_os_family == "Debian"
+
+- name: Debian - running-cloudendure-uninstallation
+  become: true
+  become_user: '{{become_user_linux}}'
+  shell: '{{item}}'
+  with_items:
+          - '{{linux_cloudendure_run_uninstall_1}}'
+          - '{{linux_cloudendure_run_uninstall_2}}'
+  when:
+          - ansible_os_family == "Debian"
+          - debian_cloudendure_agent_state_result.stat.exists == True
+
+
+####### RedHat #######
+
+- name: Debian - Checking if Cloudendure is installed
+  become: true
+  become_user: '{{become_user_linux}}'
+  stat:
+          path: '{{cloudendure_agent_path}}'
+  register: redhat_cloudendure_agent_state_result
+  when:
+          - ansible_os_family == "RedHat"
+
+- name: RedHat - running-cloudendure-uninstallation
+  become: true
+  become_user: '{{become_user_linux}}'
+  shell: '{{item}}'
+  with_items:
+          - '{{linux_cloudendure_run_uninstall_1}}'
+          - '{{linux_cloudendure_run_uninstall_2}}'
+  when:
+          - ansible_os_family == "RedHat"
+          - redhat_cloudendure_agent_state_result.stat.exists == True
